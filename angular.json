@@ -2,12 +2,128 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "usbconnect": {
+      "root": "apps/usbconnect/",
+      "sourceRoot": "apps/usbconnect/src",
+      "projectType": "application",
+      "prefix": "webusb",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/usbconnect",
+            "index": "apps/usbconnect/src/index.html",
+            "main": "apps/usbconnect/src/main.ts",
+            "polyfills": "apps/usbconnect/src/polyfills.ts",
+            "tsConfig": "apps/usbconnect/tsconfig.app.json",
+            "assets": [
+              "apps/usbconnect/src/favicon.ico",
+              "apps/usbconnect/src/assets"
+            ],
+            "styles": [
+              "apps/usbconnect/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/usbconnect/src/environments/environment.ts",
+                  "with": "apps/usbconnect/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "usbconnect:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "usbconnect:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "usbconnect:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/usbconnect/src/test.ts",
+            "polyfills": "apps/usbconnect/src/polyfills.ts",
+            "tsConfig": "apps/usbconnect/tsconfig.spec.json",
+            "karmaConfig": "apps/usbconnect/karma.conf.js",
+            "styles": [
+              "apps/usbconnect/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/usbconnect/src/favicon.ico",
+              "apps/usbconnect/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/usbconnect/tsconfig.app.json",
+              "apps/usbconnect/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "usbconnect-e2e": {
+      "root": "apps/usbconnect-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/usbconnect-e2e/protractor.conf.js",
+            "devServerTarget": "usbconnect:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/usbconnect-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
       "versionMismatch": false
     },
     "defaultCollection": "@nrwl/schematics"
-  }
+  },
+  "defaultProject": "usbconnect"
 }

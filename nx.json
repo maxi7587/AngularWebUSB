@@ -1,5 +1,11 @@
 {
   "npmScope": "webusb",
   "projects": {
+    "usbconnect": {
+      "tags": []
+    },
+    "usbconnect-e2e": {
+      "tags": []
+    }
   }
 }

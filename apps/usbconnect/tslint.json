@@ -1,0 +1,17 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "webusb",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "webusb",
+      "kebab-case"
+    ]
+  }
+}
