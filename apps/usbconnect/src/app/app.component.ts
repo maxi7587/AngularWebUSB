@@ -17,17 +17,25 @@ declare global {
 export class AppComponent {
 
     public title = 'webusb';
+    public device;
 
-    public filters = {
-        verbatim_mouse: {
-                vendorId: 0x0,
-                productId: 0x538
+    public filters = [
+        // verbatim_mouse:
+        {
+            vendorId: 0x0,
+            productId: 0x538
         },
-        samsung_core_2: {
+        // samsung_core_2:
+        {
             vendorId: 0x4e8,
             productId: 0x6860
+        },
+        // philips_gogear:
+        {
+            vendorId: 0x471,
+            productId: 0x2131
         }
-    }
+    ];
 
     public async requestDevice(): Promise<any> {
         let device;
@@ -35,8 +43,7 @@ export class AppComponent {
             try {
                 device = await navigator.usb.requestDevice({
                     filters: [
-                        this.filters.verbatim_mouse,
-                        this.filters.samsung_core_2
+                        this.filters
                     ]
                 });
             } catch (err) {
@@ -53,14 +60,26 @@ export class AppComponent {
     }
 
     public connectToDevice(): void {
-        this.requestDevice().then(
-            success => {
-                console.log('success ---------->', success);
-                success.open()
-            },
-            reject => {
-                console.warn('Error: ', reject);
-            }
-        );
+        // this.requestDevice().then(
+        //     success => {
+        //         console.log('success ---------->', success);
+        //         success.open();
+        //     },
+        //     reject => {
+        //         console.warn('Error: ', reject);
+        //     }
+        // );
+
+        // Other approach (removing all other code)
+        navigator.usb.requestDevice({filters: [
+            this.filters
+        ]})
+        .then(selected_device => {
+            this.device = selected_device;
+            return this.device.open();
+        })
+        .then(() => this.device.selectConfiguration(1)) // Select configuration #1 for the device.
+        .then(() => console.log(this.device))
+        // .then(() => this.device.claimInterface(2)) // Request exclusive control over interface #2.
     }
 }
